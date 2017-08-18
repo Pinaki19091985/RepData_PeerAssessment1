@@ -4,18 +4,54 @@ output:
   html_document:
     keep_md: true
 ---
-
+echo = TRUE  # The code is displayed
 
 ## Loading and preprocessing the data
 
+# Downloaded the dataset in activity.zip file and then reading it in csv format and loading it into 'activity' and checking the class
+
+activity <- read.csv(unz("activity.zip", "activity.csv"))
+sapply(activity, class)
+
+
+# Process/transform the data (if necessary) into a format suitable for your analysis
+# Converting activity date to date class from factor
+activity$date <- as.Date(activity$date, format = "%Y-%m-%d")
+
+# Installing the zoo package
+install.packages("zoo", repos="http://R-Forge.R-project.org")
+suppressWarnings(library(zoo))
+
+# Checking whether activity$date is strictly regular and checking the unique activitiy dates
+
+is.regular(activity$date,strict = TRUE)
+unique(activity$date)
 
 
 ## What is mean total number of steps taken per day?
 
+# Calculate the total number of steps taken per day
+steps_day <- aggregate(steps ~ date, rm.na = TRUE, data = activity, FUN = sum)
+
+# Checking the values stored in steps_day
+steps_day
+
+# Make a histogram of the total number of steps taken each day
+plot(steps_day, type = "h", lwd = 10, lend = "square")
+
+# Calculate and report the mean and median of the total number of steps taken per day
+
+aggregate(steps ~ date, data = activity, FUN = mean)
+aggregate(steps ~ date, data = activity, FUN = median)
 
 
 ## What is the average daily activity pattern?
 
+# Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
+plot(aggregate(steps ~ interval, data = activity, FUN = mean), type = "l")
+
+# Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
+max(activity$steps, na.rm = TRUE)
 
 
 ## Imputing missing values

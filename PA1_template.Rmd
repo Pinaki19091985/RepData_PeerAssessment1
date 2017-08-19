@@ -1,14 +1,16 @@
 ---
+output: html_document
+---
 title: 'Reproducible Research: Peer Assessment 1'
 output:
   html_document:
-    fig_caption: yes
+    fig_caption: 
     keep_md: yes
   pdf_document: default
   word_document: default
 ---
-echo = TRUE  
-# The code is displayed
+
+```{r figA, echo=TRUE, fig=TRUE, fig.path="figure/"}
 
 ## Loading and preprocessing the data
 
@@ -26,15 +28,15 @@ activity$date <- as.Date(activity$date, format = "%Y-%m-%d")
 
 # Installing the zoo package
 
-install.packages("zoo", repos="http://R-Forge.R-project.org")
+#install.packages("zoo", repos="http://R-Forge.R-project.org")
 
-suppressWarnings(library(zoo))
+#suppressWarnings(library(zoo))
 
 # Checking whether activity$date is strictly regular and checking the unique activitiy dates
 
-is.regular(activity$date,strict = TRUE)
+#is.regular(activity$date,strict = TRUE)
 
-unique(activity$date)
+#unique(activity$date)
 
 ## What is mean total number of steps taken per day?
 
@@ -101,8 +103,6 @@ plot(steps_day2, type = "h", lwd = 5, lend = "square", main = "NAs filled")
 
 abline(h = seq(0, 20000, 2500), lty = "dashed")
 
-dev.off()
-
 
 aggregate(steps ~ date, data = activity, FUN = mean)
 
@@ -130,8 +130,11 @@ levels(activity2$weekday) <- list(weekday = c("Monday", "Tuesday",
 
 par(mfrow = c(2, 1))
 
-with(activity2[activity2$weekday == "weekend",], plot(aggregate(steps ~ interval, FUN = mean), type = "l", main = "Weekends"))
+activity3 <- activity2[activity2$weekday == "weekend",]
+activity4 <- activity2[activity2$weekday == "weekday",]
 
-with(activity2[activity2$weekday == "weekday",], plot(aggregate(steps ~ interval, FUN = mean), type = "l", main = "Weekdays"))
+plot(aggregate(steps ~ interval,data = activity3, FUN = mean), type = "l", main = "Weekends")
 
-dev.off()
+plot(aggregate(steps ~ interval, data = activity4,FUN = mean), type = "l", main = "Weekdays")
+
+dev.off();

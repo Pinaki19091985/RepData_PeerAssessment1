@@ -1,4 +1,11 @@
-# Reproducible Research: Peer Assessment 1
+title: 'Reproducible Research: Peer Assessment 1'
+output:
+  html_document:
+    fig_caption: 
+    keep_md: yes
+  pdf_document: default
+  word_document: default
+---
 
 
 ```r
@@ -305,15 +312,6 @@ abline(h = seq(0, 20000, 2500), lty = "dashed")
 ![](figure/figA-3.png)<!-- -->
 
 ```r
-dev.off()
-```
-
-```
-## null device 
-##           1
-```
-
-```r
 aggregate(steps ~ date, data = activity, FUN = mean)
 ```
 
@@ -598,8 +596,12 @@ activity4 <- activity2[activity2$weekday == "weekday",]
 plot(aggregate(steps ~ interval,data = activity3, FUN = mean), type = "l", main = "Weekends")
 
 plot(aggregate(steps ~ interval, data = activity4,FUN = mean), type = "l", main = "Weekdays")
+```
 
-dev.off()
+![](figure/figA-4.png)<!-- -->
+
+```r
+dev.off();
 ```
 
 ```
